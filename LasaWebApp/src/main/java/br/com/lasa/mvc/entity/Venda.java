@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+
+import com.fasterxml.jackson.annotation.JsonFormat;
  
 
 @Entity(name="tb_venda")
@@ -19,7 +22,8 @@ public class Venda {
     @Column(name="id_venda", nullable=false)
     private Long id; 
     
-    @Column(name="data", nullable=false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @Column(name="data", nullable=false)    
     private Date data;
     
     @Column(name="loja", nullable=false)
@@ -33,7 +37,7 @@ public class Venda {
 
     @OneToMany
     @JoinColumn(name = "id_venda")
-    private List<ItemVenda> itemVendas;
+    private List<ItemVenda> itens;
     
 	public Long getId() {
 		return id;
@@ -76,10 +80,10 @@ public class Venda {
 	}
 
 	public List<ItemVenda> getItemVendas() {
-		return itemVendas;
+		return itens;
 	}
 
 	public void setItemVendas(List<ItemVenda> itemVendas) {
-		this.itemVendas = itemVendas;
+		this.itens = itemVendas;
 	}
 }

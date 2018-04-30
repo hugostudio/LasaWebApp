@@ -37,6 +37,12 @@ public class VendaController {
 		return new ResponseEntity<List<Venda>>(list, HttpStatus.OK);
 	}
 	
+	@GetMapping("venda/next")
+	public ResponseEntity<Venda> getNextOldVenda() {
+		Venda venda = vendaService.getNextOldVenda();
+		return new ResponseEntity<Venda>(venda, HttpStatus.OK);
+	}	
+	
 	@PostMapping("venda")
 	public ResponseEntity<Void> addVenda(@RequestBody Venda venda, UriComponentsBuilder builder) {
         boolean flag = vendaService.addVenda(venda);

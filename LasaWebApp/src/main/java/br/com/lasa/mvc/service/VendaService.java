@@ -44,4 +44,9 @@ public class VendaService implements IVendaService {
 		vendaDAO.deleteVenda(vendaId);
 	}
 
+
+	public Venda getNextOldVenda() {
+		return vendaDAO.getNextOldVenda();
+	}
+
 }

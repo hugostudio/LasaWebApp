@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,13 @@ public class VendaDAO implements IVendaDAO {
 		String hql = "FROM tb_venda as v ORDER BY v.id";
 		return (List<Venda>) entityManager.createQuery(hql).getResultList();
 	}	
+	
+	public Venda getNextOldVenda() {
+		String hql = "FROM tb_venda as v WHERE v.status = 'NÃO PROCESSADO' order by v.data asc";
+		Query q = entityManager.createQuery(hql);
+		q.setMaxResults(1);
+		return (Venda) q.getSingleResult();	
+	}
 	
 	public void addVenda(Venda Venda) {
 		entityManager.persist(Venda);
