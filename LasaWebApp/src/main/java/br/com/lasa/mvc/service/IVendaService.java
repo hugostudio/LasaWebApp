@@ -11,4 +11,5 @@ public interface IVendaService {
     boolean addVenda(Venda venda);
     void updateVenda(Venda venda);
     void deleteVenda(Long vendaId);
+    boolean consolidarVenda();
 }

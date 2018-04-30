@@ -3,12 +3,17 @@ package br.com.lasa.batch.taskconfig;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import br.com.lasa.mvc.service.IVendaService;
+
 @Component
 public class ScheduledTasks {
-
+	@Autowired
+	private IVendaService vendaService;
+	
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"MM/dd/yyyy HH:mm:ss");
 /*
@@ -31,9 +36,14 @@ public class ScheduledTasks {
 
 	@Scheduled(initialDelay = 1000, fixedRate = 60000) // um minuto
 	public void performDelayedTask() {
-	
-		System.out.println("Delayed Regular task performed at "
-				+ dateFormat.format(new Date()));
+		if(vendaService.consolidarVenda()) {
+			System.out.println("vendaService.consolidarVenda() OK - "
+					+ dateFormat.format(new Date()));
+		} else {
+			System.out.println("vendaService.consolidarVenda() Fail - "
+					+ dateFormat.format(new Date()));
+		}
+		
 	
 	}
 
