@@ -69,4 +69,6 @@ INSERT INTO tb_item_venda (id_item_venda, id_venda, desconto, preco_unitario, pr
 (2, 21, 0.99, 3.99, '2123456789'),
 (2, 22, 0.99, 3.99, '2123456789');
 
+INSERT INTO `articles` (`article_id`, `category`, `title`) VALUES (NULL, 'Tecnologia', 'Spring boot'), (NULL, 'Tecnologia', 'Spring Batch');
+
 COMMIT;
