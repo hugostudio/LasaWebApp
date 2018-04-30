@@ -1,11 +1,15 @@
 package br.com.lasa.mvc.entity;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
  
 
 @Entity(name="tb_venda")
@@ -27,6 +31,10 @@ public class Venda {
     @Column(name="status", nullable=false)
     private String status;
 
+    @OneToMany
+    @JoinColumn(name = "id_venda")
+    private List<ItemVenda> itemVendas;
+    
 	public Long getId() {
 		return id;
 	}
@@ -65,5 +73,13 @@ public class Venda {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public List<ItemVenda> getItemVendas() {
+		return itemVendas;
+	}
+
+	public void setItemVendas(List<ItemVenda> itemVendas) {
+		this.itemVendas = itemVendas;
 	}
 }
