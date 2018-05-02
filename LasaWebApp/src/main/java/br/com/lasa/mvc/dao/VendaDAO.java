@@ -3,6 +3,7 @@ package br.com.lasa.mvc.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -30,10 +31,14 @@ public class VendaDAO implements IVendaDAO {
 	}	
 	
 	public Venda getNextOldVenda() {
-		String hql = "FROM tb_venda as v WHERE v.status = 'NÃO PROCESSADO' order by v.data asc";
-		Query q = entityManager.createQuery(hql);
-		q.setMaxResults(1);
-		return (Venda) q.getSingleResult();	
+		try {
+			String hql = "FROM tb_venda as v JOIN FETCH v.itens WHERE v.status = 'NÃO PROCESSADO' order by v.data asc";
+			Query q = entityManager.createQuery(hql);
+			q.setMaxResults(1);
+			return (Venda) q.getSingleResult();	
+		}catch(NoResultException E){
+			return null;
+		}
 	}
 	
 	public void addVenda(Venda Venda) {

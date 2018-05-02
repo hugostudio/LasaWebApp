@@ -34,16 +34,15 @@ public class ScheduledTasks {
 	}	
 */
 
-	@Scheduled(initialDelay = 1000, fixedRate = 60000) // um minuto
+	@Scheduled(initialDelay = 1000, fixedRate = 5000) // 5 segundos
 	public void performDelayedTask() {
-		if(vendaService.consolidarVenda()) {
+		if(vendaService.processarVenda()) {
 			System.out.println("vendaService.consolidarVenda() OK - "
 					+ dateFormat.format(new Date()));
 		} else {
-			System.out.println("vendaService.consolidarVenda() Fail - "
+			System.out.println("vendaService.consolidarVenda() Sem registros - "
 					+ dateFormat.format(new Date()));
 		}
-		
 	
 	}
 

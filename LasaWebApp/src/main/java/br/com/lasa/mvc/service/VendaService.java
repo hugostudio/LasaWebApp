@@ -2,12 +2,12 @@ package br.com.lasa.mvc.service;
 
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lasa.mvc.dao.IProcessamentoDAO;
 import br.com.lasa.mvc.dao.IVendaDAO;
+import br.com.lasa.mvc.entity.ItemVenda;
 import br.com.lasa.mvc.entity.Processamento;
 import br.com.lasa.mvc.entity.Venda;
 
@@ -55,34 +55,30 @@ public class VendaService implements IVendaService {
 		return vendaDAO.getNextOldVenda();
 	}
 
-
-	private String gerarNomeArq(Venda venda) {
-		StringBuffer strBuff = new StringBuffer();
-		strBuff.append(venda.getData());
-		strBuff.append(" - ");
-		strBuff.append(venda.getLoja());
-		strBuff.append(" - ");
-		strBuff.append(venda.getId());
-		return strBuff.toString();
-	}
-
-
-	public boolean consolidarVenda() {
+	public boolean processarVenda() {
 		try {
 			Venda vnd = getNextOldVenda();
-			Processamento proc = new Processamento();
-			
-			proc.setData(new Date());
-			proc.setLoja(vnd.getLoja());
-			proc.setPdv(vnd.getPdv());
-			proc.setStatus("PENDENTE");
-			proc.setNomeArquivo(gerarNomeArq(vnd));
-			processamentoDAO.addProcessamento(proc);
-			
-			vnd.setStatus("OK");
-			vendaDAO.updateVenda(vnd);
-			return true;
-			
+			if(vnd != null) {
+				for(ItemVenda item : vnd.getItens()) {
+					Processamento proc = new Processamento();
+					proc.setIdVenda(vnd.getId());
+					proc.setIdItemVenda(item.getId().getIdItemVenda());
+					proc.setData(new Date());
+					proc.setLoja(vnd.getLoja());
+					proc.setPdv(vnd.getPdv());
+					proc.setProduto(item.getProduto());
+					proc.setPrecoUnitario(item.getPrecoUnitario());
+					proc.setDesconto(item.getDesconto());
+					proc.setStatus("PENDENTE");
+					proc.setNomeArquivo("");
+					processamentoDAO.addProcessamento(proc);
+				}
+				vnd.setStatus("OK");
+				vendaDAO.updateVenda(vnd);
+				return true;
+			}else{
+				return false;
+			}
 		} catch(Exception E){
 			return false;
 		}	

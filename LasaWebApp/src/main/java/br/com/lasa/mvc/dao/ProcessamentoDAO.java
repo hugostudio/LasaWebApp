@@ -3,7 +3,9 @@ package br.com.lasa.mvc.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import br.com.lasa.mvc.entity.Processamento;
@@ -17,17 +19,27 @@ public class ProcessamentoDAO implements IProcessamentoDAO {
 	private EntityManager entityManager;	
 
 	@SuppressWarnings("unchecked")
-	public List<Processamento> getAllProcessamentos() {
+	public List<Processamento> getProcessamentoByFiltro(Long processamentoId) {
 		String hql = "FROM tb_processamento as p ORDER BY p.id";
 		return (List<Processamento>) entityManager.createQuery(hql).getResultList();
 	}
 
-	public Processamento getProcessamentoById(Long processamentoId) {
-		return entityManager.find(Processamento.class, processamentoId);
-	}
-
 	public void addProcessamento(Processamento processamento) {
 		entityManager.persist(processamento);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Processamento> getNextLote() {
+		try {
+			String hql = "FROM tb_processamento as p ORDER BY p.id";
+			Query q = entityManager.createQuery(hql);
+			q.setMaxResults(10);
+			return (List<Processamento>) q.getResultList();	
+		}catch(NoResultException E){
+			return null;
+		}
+
 	}
 
 }

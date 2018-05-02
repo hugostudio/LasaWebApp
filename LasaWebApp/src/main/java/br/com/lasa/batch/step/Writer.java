@@ -1,16 +1,41 @@
 package br.com.lasa.batch.step;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.batch.item.ItemWriter;
+
 
 public class Writer implements ItemWriter<String> {
 
 	@Override
 	public void write(List<? extends String> messages) throws Exception {
-		for (String msg : messages) {
-			System.out.println("Writing the data " + msg);
-		}
+		try {
+			File file = new File("lasadata.txt");
+
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+
+            BufferedWriter bw = new BufferedWriter(fw);
+            
+    		for (String txt : messages) {
+    			bw.write(txt);
+    			bw.newLine();
+    			System.out.println(">> " + txt);
+    		}
+    		      
+            bw.close();
+
+        } catch (IOException e) {
+        	System.out.println( e.getMessage());
+        }
+		
 	}
 
 }

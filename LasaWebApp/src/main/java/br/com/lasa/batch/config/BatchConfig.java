@@ -9,18 +9,23 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import br.com.lasa.batch.listener.JobCompletionListener;
 import br.com.lasa.batch.step.Processor;
 import br.com.lasa.batch.step.Reader;
 import br.com.lasa.batch.step.Writer;
+import br.com.lasa.mvc.service.IProcessamentoService;
 
+@Component
 @Configuration
 public class BatchConfig {
+	@Autowired
+	private IProcessamentoService ProcessamentoService;
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
-
+	
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 
@@ -34,7 +39,7 @@ public class BatchConfig {
 	@Bean
 	public Step orderStep1() {
 		return stepBuilderFactory.get("orderStep1").<String, String> chunk(1)
-				.reader(new Reader()).processor(new Processor())
+				.reader(new Reader(ProcessamentoService)).processor(new Processor())
 				.writer(new Writer()).build();
 	}
 

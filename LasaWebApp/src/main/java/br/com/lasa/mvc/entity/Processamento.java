@@ -10,24 +10,68 @@ import javax.persistence.Id;
 
 @Entity(name="tb_processamento")
 public class Processamento {
-    @Id 
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Processamento [id=");
+		builder.append(id);
+		builder.append(", idVenda=");
+		builder.append(idVenda);
+		builder.append(", idItemVenda=");
+		builder.append(idItemVenda);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append(", loja=");
+		builder.append(loja);
+		builder.append(", pdv=");
+		builder.append(pdv);
+		builder.append(", produto=");
+		builder.append(produto);
+		builder.append(", precoUnitario=");
+		builder.append(precoUnitario);
+		builder.append(", desconto=");
+		builder.append(desconto);
+		builder.append(", nomeArquivo=");
+		builder.append(nomeArquivo);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	@Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id_processamento", nullable=false)
     private Long id; 
-    
-    @Column(name="data", nullable=false)
+ 
+	@Column(name="id_venda")
+    private Long idVenda;
+	
+	@Column(name="id_item_venda")
+    private Long idItemVenda;
+	
+    @Column(name="data")
     private Date data;
     
-    @Column(name="loja", nullable=false)
+    @Column(name="loja")
     private int loja; 	
     
-    @Column(name="pdv", nullable=false)
+    @Column(name="pdv")
     private int pdv;
+ 
+    @Column(name="produto")
+    private String produto; 	
     
-    @Column(name="nome_qrquivo", nullable=false)
+    @Column(name="preco_unitario")
+    private float precoUnitario;
+    
+    @Column(name="desconto")
+    private float desconto;
+    
+    @Column(name="nome_qrquivo")
     private String nomeArquivo;
     
-    @Column(name="status", nullable=false)
+    @Column(name="status")
     private String status;
 
 	public Long getId() {
@@ -60,6 +104,46 @@ public class Processamento {
 
 	public void setPdv(int pdv) {
 		this.pdv = pdv;
+	}
+
+	public Long getIdVenda() {
+		return idVenda;
+	}
+
+	public void setIdVenda(Long idVenda) {
+		this.idVenda = idVenda;
+	}
+
+	public Long getIdItemVenda() {
+		return idItemVenda;
+	}
+
+	public void setIdItemVenda(Long idItemVenda) {
+		this.idItemVenda = idItemVenda;
+	}
+
+	public String getProduto() {
+		return produto;
+	}
+
+	public void setProduto(String produto) {
+		this.produto = produto;
+	}
+
+	public float getPrecoUnitario() {
+		return precoUnitario;
+	}
+
+	public void setPrecoUnitario(float precoUnitario) {
+		this.precoUnitario = precoUnitario;
+	}
+
+	public float getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(float desconto) {
+		this.desconto = desconto;
 	}
 
 	public String getStatus() {

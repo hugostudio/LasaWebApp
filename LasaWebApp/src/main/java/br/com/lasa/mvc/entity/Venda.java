@@ -17,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity(name="tb_venda")
 public class Venda {
-    @Id 
+
+	@Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id_venda", nullable=false)
     private Long id; 
@@ -79,11 +80,31 @@ public class Venda {
 		this.status = status;
 	}
 
-	public List<ItemVenda> getItemVendas() {
+	public List<ItemVenda> getItens() {
 		return itens;
 	}
 
-	public void setItemVendas(List<ItemVenda> itemVendas) {
-		this.itens = itemVendas;
+	public void setItens(List<ItemVenda> itens) {
+		this.itens = itens;
 	}
+
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Venda [id=");
+		builder.append(id);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append(", loja=");
+		builder.append(loja);
+		builder.append(", pdv=");
+		builder.append(pdv);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", itens=");
+		builder.append(itens);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
