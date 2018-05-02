@@ -11,13 +11,7 @@ import br.com.lasa.mvc.service.IProcessamentoService;
 
 
 public class Reader implements ItemReader<String> {
-/*	
-	private String[] messages = { "javainuse.com",
-			"Welcome to Spring Batch Example",
-			"We use H2 Database for this example" };
 
-	private int count = 0;
-	*/
 	private IProcessamentoService processamentoService;
 	private List<Processamento> processamentos;
 	private Iterator<Processamento> itrt;
@@ -36,7 +30,7 @@ public class Reader implements ItemReader<String> {
 		}
 		
 		if (itrt.hasNext()) {
-			return itrt.next().toString();
+			return itrt.next().toStringFormat();
 		} else {
 			processamentos = processamentoService.getNextLote();
 			itrt = processamentos.iterator();

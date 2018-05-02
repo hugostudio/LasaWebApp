@@ -1,5 +1,6 @@
 package br.com.lasa.mvc.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,34 +11,6 @@ import javax.persistence.Id;
 
 @Entity(name="tb_processamento")
 public class Processamento {
-    @Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Processamento [id=");
-		builder.append(id);
-		builder.append(", idVenda=");
-		builder.append(idVenda);
-		builder.append(", idItemVenda=");
-		builder.append(idItemVenda);
-		builder.append(", data=");
-		builder.append(data);
-		builder.append(", loja=");
-		builder.append(loja);
-		builder.append(", pdv=");
-		builder.append(pdv);
-		builder.append(", produto=");
-		builder.append(produto);
-		builder.append(", precoUnitario=");
-		builder.append(precoUnitario);
-		builder.append(", desconto=");
-		builder.append(desconto);
-		builder.append(", nomeArquivo=");
-		builder.append(nomeArquivo);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append("]");
-		return builder.toString();
-	}
 
 	@Id 
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -160,5 +133,44 @@ public class Processamento {
 
 	public void setNomeArquivo(String nomeArquivo) {
 		this.nomeArquivo = nomeArquivo;
-	}	
+	}
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Processamento [id=");
+		builder.append(id);
+		builder.append(", idVenda=");
+		builder.append(idVenda);
+		builder.append(", idItemVenda=");
+		builder.append(idItemVenda);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append(", loja=");
+		builder.append(loja);
+		builder.append(", pdv=");
+		builder.append(pdv);
+		builder.append(", produto=");
+		builder.append(produto);
+		builder.append(", precoUnitario=");
+		builder.append(precoUnitario);
+		builder.append(", desconto=");
+		builder.append(desconto);
+		builder.append(", nomeArquivo=");
+		builder.append(nomeArquivo);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append("]");
+		return builder.toString();
+	}
+    
+	public String toStringFormat () {
+		SimpleDateFormat sdfDate = new SimpleDateFormat("ddMMyyyy");
+		String strDate = sdfDate.format(data);
+		
+		String strFormat = String.format ("%09d%s%04d%03d%11s%05.2f%05.2f%05.2f", 
+					idVenda, strDate, loja, pdv, produto, 
+					precoUnitario, desconto, (precoUnitario - desconto) );
+		return strFormat;
+	
+	}    
 }

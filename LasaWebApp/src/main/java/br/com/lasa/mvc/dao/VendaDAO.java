@@ -41,22 +41,22 @@ public class VendaDAO implements IVendaDAO {
 		}
 	}
 	
-	public void addVenda(Venda Venda) {
-		entityManager.persist(Venda);
+	public void addVenda(Venda venda) {
+		entityManager.persist(venda);
 	}
 	
-	public void updateVenda(Venda Venda) {
-		Venda vnd = getVendaById(Venda.getId());
-		vnd.setData(Venda.getData());
-		vnd.setLoja(Venda.getLoja());
-		vnd.setPdv(Venda.getPdv());
-		vnd.setStatus(Venda.getStatus());
+	public void updateVenda(Venda venda) {
+		Venda vnd = getVendaById(venda.getId());
+		vnd.setData(venda.getData());
+		vnd.setLoja(venda.getLoja());
+		vnd.setPdv(venda.getPdv());
+		vnd.setStatus(venda.getStatus());
 		entityManager.flush();
 	}
 
 
-	public void deleteVenda(Long VendaId) {
-		entityManager.remove(getVendaById(VendaId));
+	public void deleteVenda(Long vendaId) {
+		entityManager.remove(getVendaById(vendaId));
 	}
 	
 } 

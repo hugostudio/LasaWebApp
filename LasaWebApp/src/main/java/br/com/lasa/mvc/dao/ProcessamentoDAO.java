@@ -1,7 +1,6 @@
 package br.com.lasa.mvc.dao;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -32,7 +31,7 @@ public class ProcessamentoDAO implements IProcessamentoDAO {
 	@Override
 	public List<Processamento> getNextLote() {
 		try {
-			String hql = "FROM tb_processamento as p ORDER BY p.id";
+			String hql = "FROM tb_processamento as p WHERE p.status = 'PENDENTE' ORDER BY p.id";
 			Query q = entityManager.createQuery(hql);
 			q.setMaxResults(10);
 			return (List<Processamento>) q.getResultList();	
@@ -40,6 +39,25 @@ public class ProcessamentoDAO implements IProcessamentoDAO {
 			return null;
 		}
 
+	}
+
+	@Override
+	public void updateProcessamento(Processamento processamento) {
+		Processamento process = getProcessamentoById(processamento.getId());
+		process.setData(processamento.getData());
+		process.setDesconto(processamento.getDesconto());
+		process.setLoja(processamento.getLoja());
+		process.setPdv(processamento.getPdv());
+		process.setNomeArquivo(processamento.getNomeArquivo());
+		process.setPrecoUnitario(processamento.getPrecoUnitario());
+		process.setProduto(processamento.getProduto());
+		process.setStatus(processamento.getStatus());
+		entityManager.flush();	
+	}
+
+	@Override
+	public Processamento getProcessamentoById(Long processamentoId) {
+		return entityManager.find(Processamento.class, processamentoId);
 	}
 
 }

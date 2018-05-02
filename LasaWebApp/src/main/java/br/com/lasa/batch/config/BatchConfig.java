@@ -9,27 +9,30 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import br.com.lasa.batch.listener.JobCompletionListener;
 import br.com.lasa.batch.step.Processor;
 import br.com.lasa.batch.step.Reader;
 import br.com.lasa.batch.step.Writer;
+import br.com.lasa.mvc.service.IFlatFileService;
 import br.com.lasa.mvc.service.IProcessamentoService;
 
-@Component
 @Configuration
 public class BatchConfig {
+	
 	@Autowired
-	private IProcessamentoService ProcessamentoService;
+	private IProcessamentoService processamentoService;
 
+	@Autowired
+	private IFlatFileService flatFileService;
+	
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
 	
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
-
-	@Bean
+	
+	@Bean	
 	public Job processJob() {
 		return jobBuilderFactory.get("processJob")
 				.incrementer(new RunIdIncrementer()).listener(listener())
@@ -38,9 +41,10 @@ public class BatchConfig {
 
 	@Bean
 	public Step orderStep1() {
+		flatFileService.gerarNovoNomeArquivo();
 		return stepBuilderFactory.get("orderStep1").<String, String> chunk(1)
-				.reader(new Reader(ProcessamentoService)).processor(new Processor())
-				.writer(new Writer()).build();
+				.reader(new Reader(processamentoService)).processor(new Processor())
+				.writer(new Writer(flatFileService)).build();
 	}
 
 	@Bean
