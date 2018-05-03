@@ -4,18 +4,26 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Embeddable
 public class ItemVendaPK implements Serializable {
 
 	private static final long serialVersionUID = 2801612039276694146L;
-
-	@Column(name="id_venda", nullable=false)
-    private Long idVenda;
 	
-	@Column(name="id_item_venda", nullable=false)
+
+	@Column(name="id_venda")
+    private Long idVenda;
+	 
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id_item_venda")
     private Long idItemVenda;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_venda", updatable = true, insertable = true)
 	public Long getIdVenda() {
 		return idVenda;
 	}

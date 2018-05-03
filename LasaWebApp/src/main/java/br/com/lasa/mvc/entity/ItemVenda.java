@@ -2,16 +2,11 @@ package br.com.lasa.mvc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
- 
 
 @Entity(name="tb_item_venda")
 public class ItemVenda { 
-    
-    @Id 
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Id
     private ItemVendaPK id; 
     
     @Column(name="produto", nullable=false)

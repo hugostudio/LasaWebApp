@@ -3,6 +3,7 @@ package br.com.lasa.mvc.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +34,11 @@ public class Venda {
     @Column(name="pdv", nullable=false)
     private int pdv;
     
-    @Column(name="status", nullable=false)
+    @Column(name="status", columnDefinition="varchar(14) default 'NÃO PROCESSADO'")
     private String status;
 
-    @OneToMany
-    @JoinColumn(name = "id_venda")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_venda", updatable = true, insertable = true)
     private List<ItemVenda> itens;
     
 	public Long getId() {
